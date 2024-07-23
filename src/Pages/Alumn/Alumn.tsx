@@ -2,8 +2,8 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../Auto/Auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { AlumnDashboard, CredentialsAlumn, Escolar, HorarioEscolarAlumnoPropio, NavbarDashboardAlumn, ProfileAlumnDashboard, SolicitarCredencialAlumno } from '../../Sections/Alumn';
-
+import { HorarioEscolarAlumnoPropio } from '../../Sections/Alumn';
+import { AlumnDashboard, CredentialsAlumn, Escolar, NavbarDashboardAlumn, ProfileAlumnDashboard, SolicitarCredencialAlumno } from '../../Sections/Alumn';
 
 const Alumn: React.FC = () => {
   const [currentPanel, setCurrentPanel] = useState<string>('dashboardalumn');
@@ -12,6 +12,10 @@ const Alumn: React.FC = () => {
 
   const handleButtonClick = (panel: string) => {
     setCurrentPanel(panel);
+  };
+
+  const handleClose = () => {
+    setCurrentPanel('dashboardalumn'); // o cualquier lógica que necesites para manejar el cierre del componente
   };
 
   useEffect(() => {
@@ -26,11 +30,13 @@ const Alumn: React.FC = () => {
     <div className="admin-container-pages">
       <NavbarDashboardAlumn onButtonClick={handleButtonClick} />
       {currentPanel === 'dashboardalumn' && <AlumnDashboard />}
-      {currentPanel === 'profiledashboardalumn' && <ProfileAlumnDashboard/>}
+      {currentPanel === 'profiledashboardalumn' && <ProfileAlumnDashboard />}
       {currentPanel === 'escolar' && <Escolar />}
       {currentPanel === 'credencialalumno' && <CredentialsAlumn />}
       {currentPanel === 'solicitarcredencialalumno' && <SolicitarCredencialAlumno />}
-      {currentPanel === 'HorarioEscolarAlumnoPropio' && <HorarioEscolarAlumnoPropio />}
+      {currentPanel === 'HorarioEscolarAlumnoPropio' && user && (
+        <HorarioEscolarAlumnoPropio id_usuario={user.id_usuario} onClose={handleClose} />
+      )}
     </div>
   );
 };
